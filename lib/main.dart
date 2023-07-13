@@ -69,7 +69,12 @@ class _MyAppState extends State<MyApp> {
                 content: widget.flashCard.content,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.greenAccent,
                 ),
@@ -118,6 +123,11 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
   }
 
   void _flipCard() {
+    if (_controller.isAnimating) {
+      // Animation is already running, do nothing
+      return;
+    }
+
     if (_controller.status != AnimationStatus.completed) {
       _controller.forward();
       setState(() {
