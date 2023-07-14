@@ -1,4 +1,4 @@
-# ami_memo
+# flashcard_app
 
 A new Flutter project.
 

@@ -22,9 +22,9 @@ migrate_working_dir/
 #.vscode/
 
 /linux
-/macos
 /web
 /windows
+/macos
 
 # Flutter/Dart/Pub related
 **/doc/api/
