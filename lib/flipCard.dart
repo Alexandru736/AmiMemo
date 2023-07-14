@@ -11,7 +11,12 @@ void main() {
   ));
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   DateTime dateTime=DateTime.now();
 
   @override
@@ -61,7 +66,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Card with Text'),
+          backgroundColor: Colors.green,
+          //title: const Text('Card with Text'),
         ),
         body: Center(
           child: Column(
@@ -80,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: Colors.green,
                 ),
                 child: const Text('Return'),
               ),
@@ -152,7 +158,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         side: const BorderSide(
-          color: Colors.greenAccent,
+          color: Colors.green,
           width: 5,
         ),
         borderRadius: BorderRadius.circular(20.0),
@@ -190,7 +196,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         side: const BorderSide(
-          color: Colors.greenAccent,
+          color: Colors.green,
           width: 5,
         ),
         borderRadius: BorderRadius.circular(20.0),
