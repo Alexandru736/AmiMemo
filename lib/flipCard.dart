@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'flashcard.dart';
+
 void main() {
   runApp(MaterialApp(
     title: 'Home Page',
@@ -10,16 +12,25 @@ void main() {
 }
 
 class HomePage extends StatelessWidget {
+  DateTime dateTime=DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
+      appBar: AppBar(title: const Text('Home')),
       body: Center(
         child: ElevatedButton(
-          child: Text('Go to Card'),
+          child: const Text('Go to Card'),
           onPressed: () {
-            FlashCard flashCard = FlashCard('Title', 'Text', 'Content');
+            Flashcard flashCard = Flashcard("1234",
+              "Inima",
+              "Anatomie",
+              "Inima este un organ muscular care pompează sângele prin corp",
+              dateTime,
+              "dwadawd",
+              "organ",
+              "jucarie",
+            );
 
             Navigator.push(
                 context,
@@ -35,7 +46,7 @@ class HomePage extends StatelessWidget {
 }
 
 class MyApp extends StatefulWidget {
-  final FlashCard flashCard;
+  final Flashcard flashCard;
 
   const MyApp({Key? key, required this.flashCard}) : super(key: key);
 
@@ -43,13 +54,6 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class FlashCard {
-  final String title;
-  final String text;
-  final String content;
-
-  FlashCard(this.title, this.text, this.content);
-}
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -57,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Card with Text'),
+          title: const Text('Card with Text'),
         ),
         body: Center(
           child: Column(
@@ -65,7 +69,7 @@ class _MyAppState extends State<MyApp> {
             children: [
               MyCard(
                 title: widget.flashCard.title,
-                text: widget.flashCard.text,
+                description: widget.flashCard.description,
                 content: widget.flashCard.content,
               ),
               ElevatedButton(
@@ -90,13 +94,13 @@ class _MyAppState extends State<MyApp> {
 
 class MyCard extends StatefulWidget {
   final String title;
-  final String text;
+  final String description;
   final String content;
 
   const MyCard({
     Key? key,
     required this.title,
-    required this.text,
+    required this.description,
     required this.content,
   }) : super(key: key);
 
@@ -114,7 +118,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
       ..addListener(() {
@@ -147,7 +151,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       elevation: 4,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        side: BorderSide(
+        side: const BorderSide(
           color: Colors.greenAccent,
           width: 5,
         ),
@@ -156,18 +160,25 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              widget.title,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.title,
+                style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
             ),
-            SizedBox(height: 16.0),
-            Text(
-              widget.text,
-              style: TextStyle(fontSize: 24, color: Colors.black),
-              textAlign: TextAlign.center,
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.description,
+                  style: const TextStyle(fontSize: 24, color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ),
@@ -178,7 +189,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       elevation: 4,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        side: BorderSide(
+        side: const BorderSide(
           color: Colors.greenAccent,
           width: 5,
         ),
@@ -197,10 +208,10 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
             children: [
               Text(
                 widget.content,
-                style: TextStyle(fontSize: 24, color: Colors.black),
+                style: const TextStyle(fontSize: 24, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 16.0),
+              //const SizedBox(height: 16.0),
             ],
           ),
         ),
@@ -211,8 +222,8 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
       onTap: _flipCard,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        width: double.infinity,
-        height: 200.0,
+        width: 350,
+        height: 350.0,
         child: Transform(
           transform: Matrix4.identity()
             ..setEntry(3, 2, 0.001)
