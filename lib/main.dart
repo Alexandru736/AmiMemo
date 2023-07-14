@@ -60,6 +60,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => const PracticePage()));
+          },
+          icon: const Icon(Icons.school_rounded),
+          color: Colors.white,
+        ),
         centerTitle: true,
         backgroundColor: Colors.green,
         title: Text(widget.title, style: const TextStyle(color: Colors.white)),
