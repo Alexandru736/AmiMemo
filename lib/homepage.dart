@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'flashcard.dart';
-import 'practice.dart';
+import 'practicePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,14 +12,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
       home: StartPage(),
     );
   }
 }
-
 
 class StartPage extends StatefulWidget {
   StartPage({Key? key}) : super(key: key);
@@ -30,6 +29,30 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   DateTime date = DateTime.now();
+  DateTime date2 = DateTime.now();
+
+  List<Flashcard> flashcardList = [
+    Flashcard(
+      "124",
+      "Creierul",
+      "Anatomie",
+      "Creierul reprezintă partea sistemului nervos central aflată în interiorul craniului.",
+      DateTime.now(),
+      "central",
+      "stang",
+      "drept",
+    ),
+    Flashcard(
+      "125",
+      "Piciorul",
+      "Anatomie",
+      "Piciorul este o structură biologică aflată la extremitatea membrelor inferioare care se găsește la multe animale.",
+      DateTime.now(),
+      "membrelor",
+      "mainilor",
+      "bazelor",
+    ),
+  ]; //
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +72,9 @@ class _StartPageState extends State<StartPage> {
             context,
             MaterialPageRoute(
               builder: (context) => PracticePage(
-                flashcard: Flashcard(
-                  "123",
-                  "Inima",
-                  "Un organ",
-                  "Inima este un organ muscular care pompează sângele prin corp",
-                  date,
-                  "organ",
-                  "jucarie",
-                  "obiect",
-                ),
+                flashcardList: flashcardList,
+                flashcardIndex: 0,
+                correctAnswers: 0,
               ),
             ),
           );
