@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_catenav4/practice.dart';
+import 'practice.dart';
 
 import 'create.dart';
 import 'edit.dart';
