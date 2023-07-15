@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  DateTime dateTime=DateTime.now();
+  DateTime dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +27,22 @@ class _HomePageState extends State<HomePage> {
         child: ElevatedButton(
           child: const Text('Go to Card'),
           onPressed: () {
-            Flashcard flashCard = Flashcard("1234",
-              "Inima",
-              "Anatomie",
-              "Inima este un organ muscular care pompează sângele prin corp",
-              dateTime,
-              "dwadawd",
-              "organ",
-              "jucarie",
+            Flashcard flashCard = Flashcard(
+              id: "1234",
+              title: "Inima",
+              description: "Anatomie",
+              content:
+                  "Inima este un organ muscular care pompează sângele prin corp",
+              date: dateTime,
+              correctWord: "organ",
+              wrongWord1: "dwadawd",
+              wrongWord2: "jucarie",
             );
 
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MyApp(flashCard: flashCard)
-                )
-            );
+                    builder: (context) => FlipcardPage(flashCard: flashCard)));
           },
         ),
       ),

@@ -1,66 +1,20 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:untitled6/practice.dart';
 
 import 'flashcard.dart';
 
-void main() {
-  runApp(MaterialApp(
-    title: 'Home Page',
-    home: HomePage(),
-  ));
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  DateTime dateTime=DateTime.now();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Go to Card'),
-          onPressed: () {
-            Flashcard flashCard = Flashcard("1234",
-              "Inima",
-              "Anatomie",
-              "Inima este un organ muscular care pompează sângele prin corp",
-              dateTime,
-              "dwadawd",
-              "organ",
-              "jucarie",
-            );
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MyApp(flashCard: flashCard)
-                )
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class MyApp extends StatefulWidget {
+class FlipcardPage extends StatefulWidget {
   final Flashcard flashCard;
 
-  const MyApp({Key? key, required this.flashCard}) : super(key: key);
+  const FlipcardPage({Key? key, required this.flashCard}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _FlipcardPageState createState() => _FlipcardPageState();
 }
 
-
-class _MyAppState extends State<MyApp> {
+class _FlipcardPageState extends State<FlipcardPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,13 +36,16 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(
+                        builder: (context) => PracticePage(
+                              flashcard: widget.flashCard,
+                            )),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),
-                child: const Text('Return'),
+                child: const Text('Practice'),
               ),
             ],
           ),
@@ -172,7 +129,8 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.title,
-                style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -201,7 +159,6 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
-
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Transform(

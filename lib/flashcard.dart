@@ -8,8 +8,8 @@ class Flashcard {
   final String wrongWord1;
   final String wrongWord2;
 
-  Flashcard(this.id, this.title, this.description, this.content, this.date,
-      this.correctWord, this.wrongWord1, this.wrongWord2);
+  Flashcard({required this.id, required this.title, required this.description, required this.content, required this.date,
+      required this.correctWord, required this.wrongWord1, required this.wrongWord2});
 
   Map<String, String> toMap() {
     Map<String, String> flashcardMap = {
@@ -27,15 +27,14 @@ class Flashcard {
   }
 
   static Flashcard fromMap(Map<String, dynamic>? flashcardMap) {
-    return Flashcard(
-      flashcardMap?['id'],
-      flashcardMap?['title'],
-      flashcardMap?['description'],
-      flashcardMap?['content'],
-      DateTime.parse(flashcardMap?['date']),
-      flashcardMap?['correctWord'],
-      flashcardMap?['wrongWord1'],
-      flashcardMap?['wrongWord2'],
+    return Flashcard(id: flashcardMap?['id'],
+      title: flashcardMap?['title'],
+      description: flashcardMap?['description'],
+      content: flashcardMap?['content'],
+      date: DateTime.parse(flashcardMap?['date']),
+      correctWord: flashcardMap?['correctWord'],
+      wrongWord1: flashcardMap?['wrongWord1'],
+      wrongWord2: flashcardMap?['wrongWord2'],
     );
   }
 }
