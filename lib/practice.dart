@@ -1,6 +1,5 @@
-import 'package:ami_memo/flashcard.dart';
-import 'package:flutter/material.dart';
 import 'flashcard.dart';
+import 'package:flutter/material.dart';
 import 'homepage.dart';
 import 'practicePage.dart';
 import 'evaluatePage.dart';

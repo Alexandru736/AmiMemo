@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
 import 'flashcard.dart';
-import 'practice.dart';
 
 class EvaluatePage extends StatefulWidget {
   //const EvaluatePage({super.key});
