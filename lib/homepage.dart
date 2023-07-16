@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'flashcard.dart';
 import 'practice.dart';
 
 import 'create.dart';
@@ -51,6 +52,39 @@ class _MyHomePageState extends State<MyHomePage> {
       'Flashcards are often used to memorize vocabulary, historical dates, formulae or any subject matter that can be learned via a question-and-answer format. '
       'Flashcards can be virtual (part of a flashcard software), or physical.';
 
+  List<Flashcard> flashcardList = [
+    Flashcard(
+      id: "1234",
+      title: "Inima",
+      description: "Anatomie",
+      content: "Inima este un organ muscular care pompează sângele prin corp",
+      date: DateTime.now(),
+      correctWord: "organ",
+      wrongWord1: "dwadawd",
+      wrongWord2: "jucarie",
+    ),
+    Flashcard(
+      id: "1234",
+      title: "Inima",
+      description: "Anatomie",
+      content: "Inima este un organ muscular care pompează sângele prin corp",
+      date: DateTime.now(),
+      correctWord: "organ",
+      wrongWord1: "dwadawd",
+      wrongWord2: "jucarie",
+    ),
+    Flashcard(
+      id: "1234",
+      title: "Inima",
+      description: "Anatomie",
+      content: "Inima este un organ muscular care pompează sângele prin corp",
+      date: DateTime.now(),
+      correctWord: "organ",
+      wrongWord1: "dwadawd",
+      wrongWord2: "jucarie",
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,10 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) => const PracticePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const PracticePage()));
           },
           icon: const Icon(Icons.school_rounded),
           color: Colors.white,
