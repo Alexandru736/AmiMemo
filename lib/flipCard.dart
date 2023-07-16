@@ -1,8 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:untitled6/practice.dart';
-
 import 'flashcard.dart';
 import 'practicePage.dart';
 

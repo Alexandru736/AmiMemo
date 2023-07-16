@@ -1,7 +1,7 @@
+import 'package:flashcard_app/homepage.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:localstore/localstore.dart';
-import 'dart:io';
 
 import 'entity/Flashcard.dart';
 
@@ -129,18 +129,24 @@ class _CreateFlashcardState extends State<CreateFlashcard> {
                   final int index = words.indexOf(correctAnswer);
 
                   final String correctWordIndex = index.toString();
+
                   final Flashcard flashcard = Flashcard(
                       id,
                       titleController.text,
                       descriptionController.text,
                       contentController.text,
                       date,
-                      'correctWord',
-                      'wrongWord1',
-                      'wrongWord2',
+                      correctAnswerController.text,
+                      firstWrongAnswerController.text,
+                      secondWrongAnswerController.text,
                       correctWordIndex
                   );
                   db.collection(flashcards).doc(id).set(flashcard.toMap());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage()),
+                  );
                 },
                 child: const Text('Add'))
           ],

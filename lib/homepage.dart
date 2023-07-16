@@ -1,9 +1,8 @@
+import 'package:flashcard_app/createFlashcard.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled6/flipCard.dart';
+import 'package:localstore/localstore.dart';
 import 'flashcard.dart';
-import 'practice.dart';
-
-import 'create.dart';
+import 'flipCard.dart';
 import 'edit.dart';
 import 'practicePage.dart';
 
@@ -47,38 +46,55 @@ class _MyHomePageState extends State<MyHomePage> {
       'Flashcards are often used to memorize vocabulary, historical dates, formulae or any subject matter that can be learned via a question-and-answer format. '
       'Flashcards can be virtual (part of a flashcard software), or physical.';
 
-  List<Flashcard> flashcardList = [
-    Flashcard(
-      id: "1234",
-      title: "Inima",
-      description: "Anatomie",
-      content: "Inima este un organ muscular care pompează sângele prin corp",
-      date: DateTime.now(),
-      correctWord: "organ",
-      wrongWord1: "dwadawd",
-      wrongWord2: "jucarie",
-    ),
-    Flashcard(
-      id: "1234",
-      title: "Inima",
-      description: "Anatomie",
-      content: "Inima este un organ muscular care pompează sângele prin corp",
-      date: DateTime.now(),
-      correctWord: "organ",
-      wrongWord1: "dwadawd",
-      wrongWord2: "jucarie",
-    ),
-    Flashcard(
-      id: "1234",
-      title: "Inima",
-      description: "Anatomie",
-      content: "Inima este un organ muscular care pompează sângele prin corp",
-      date: DateTime.now(),
-      correctWord: "organ",
-      wrongWord1: "dwadawd",
-      wrongWord2: "jucarie",
-    ),
-  ];
+  final Localstore db = Localstore.instance;
+
+  // List<Flashcard> flashcardList = [
+  //   Flashcard(
+  //     id: "1234",
+  //     title: "Inima",
+  //     description: "Anatomie",
+  //     content: "Inima este un organ muscular care pompează sângele prin corp",
+  //     date: DateTime.now(),
+  //     correctWord: "organ",
+  //     wrongWord1: "dwadawd",
+  //     wrongWord2: "jucarie",
+  //   ),
+  //   Flashcard(
+  //     id: "1234",
+  //     title: "Inima",
+  //     description: "Anatomie",
+  //     content: "Inima este un organ muscular care pompează sângele prin corp",
+  //     date: DateTime.now(),
+  //     correctWord: "organ",
+  //     wrongWord1: "dwadawd",
+  //     wrongWord2: "jucarie",
+  //   ),
+  //   Flashcard(
+  //     id: "1234",
+  //     title: "Inima",
+  //     description: "Anatomie",
+  //     content: "Inima este un organ muscular care pompează sângele prin corp",
+  //     date: DateTime.now(),
+  //     correctWord: "organ",
+  //     wrongWord1: "dwadawd",
+  //     wrongWord2: "jucarie",
+  //   ),
+  // ];
+
+  List<Flashcard> flashcardList = [];
+
+  @override
+  void initState() {
+    db.collection('flashcards').get().then((value) {
+      setState(() {
+        value?.entries.forEach((element) {
+          final flashcard = Flashcard.fromMap(element.value);
+          flashcardList.add(flashcard);
+        });
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration:
                   const BoxDecoration(border: Border(bottom: BorderSide())),
               child: ListTile(
-                title:
-                    const Text('Ce este viata?', textAlign: TextAlign.center),
+                title: Text(flashcardList.elementAt(index).title,
+                    textAlign: TextAlign.center),
                 titleAlignment: ListTileTitleAlignment.center,
                 horizontalTitleGap: 40,
                 leading: const Icon(
@@ -127,7 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 trailing: PopupMenuButton<ListTileTitleAlignment>(
                   onSelected: (ListTileTitleAlignment? value) {
-                    setState(() {
                       if (value == ListTileTitleAlignment.center) {
                         Navigator.push(
                           context,
@@ -148,8 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       titleAlignment = value;
                       switch (value) {
                         case ListTileTitleAlignment.threeLine:
-                          alertext = '$index $viewflashcardtitle';
-                          alertext2 = '$index $viewflashcardresponse';
+                          alertext = flashcardList.elementAt(index).title;
+                          alertext2 = flashcardList.elementAt(index).content;
                           break;
                         case ListTileTitleAlignment.titleHeight:
                           alertext = 'Edit';
@@ -166,7 +181,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           // Handle the case where value is null
                           break;
                       }
-                    });
                     if (value != ListTileTitleAlignment.center &&
                         value != ListTileTitleAlignment.titleHeight) {
                       showDialog(
@@ -178,8 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             actions: [
                               TextButton(
                                   onPressed: () {
-                                    setState(() {});
                                     Navigator.of(context).pop();
+                                    setState(() {});
                                   },
                                   child: const Text('OK')),
                             ],
@@ -198,8 +212,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       value: ListTileTitleAlignment.titleHeight,
                       child: Text('Edit'),
                     ),
-                    const PopupMenuItem<ListTileTitleAlignment>(
+                    PopupMenuItem<ListTileTitleAlignment>(
                       value: ListTileTitleAlignment.top,
+                      onTap: () => deleteFlashcard(index),
                       child: Text('Delete'),
                     ),
                     const PopupMenuItem<ListTileTitleAlignment>(
@@ -217,7 +232,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void _nextPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const CreatePage()),
+      MaterialPageRoute(builder: (context) => CreateFlashcard()),
     );
+  }
+
+  void deleteFlashcard(int index) {
+    final String id = flashcardList.elementAt(index).id;
+    flashcardList.removeAt(index);
+    db.collection('flashcards').doc(id).delete();
   }
 }
