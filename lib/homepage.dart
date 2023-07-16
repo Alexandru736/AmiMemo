@@ -109,13 +109,16 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => PracticePage(
-                  flashcardList: flashcardList,
-                  flashcardIndex: 0,
-                  correctAnswers: 0,
-                ),
-              ),
+              MaterialPageRoute(builder: (context) {
+                if(flashcardList.isNotEmpty) {
+                  return PracticePage(
+                    flashcardList: flashcardList,
+                    flashcardIndex: 0,
+                    correctAnswers: 0,
+                  );
+                }
+                return const MyHomePage();
+              }),
             );
           },
           icon: const Icon(Icons.school_rounded),
@@ -143,44 +146,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 trailing: PopupMenuButton<ListTileTitleAlignment>(
                   onSelected: (ListTileTitleAlignment? value) {
-                      if (value == ListTileTitleAlignment.center) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FlipcardPage(
-                              flashCard: flashcardList.elementAt(index),
-                            ),
+                    if (value == ListTileTitleAlignment.center) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlipcardPage(
+                            flashCard: flashcardList.elementAt(index),
                           ),
-                        );
-                      }
-                      if (value == ListTileTitleAlignment.titleHeight) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EditPage()),
-                        );
-                      }
-                      titleAlignment = value;
-                      switch (value) {
-                        case ListTileTitleAlignment.threeLine:
-                          alertext = flashcardList.elementAt(index).title;
-                          alertext2 = flashcardList.elementAt(index).content;
-                          break;
-                        case ListTileTitleAlignment.titleHeight:
-                          alertext = 'Edit';
-                          alertext2 = 'Inca nimic';
-                          break;
-                        case ListTileTitleAlignment.top:
-                          alertext = 'Delete';
-                          alertext2 = 'Are you sure you want to delete?';
-                          break;
-                        case ListTileTitleAlignment.center:
-                          //practice
-                          break;
-                        default:
-                          // Handle the case where value is null
-                          break;
-                      }
+                        ),
+                      );
+                    }
+                    if (value == ListTileTitleAlignment.titleHeight) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditPage()),
+                      );
+                    }
+                    titleAlignment = value;
+                    switch (value) {
+                      case ListTileTitleAlignment.threeLine:
+                        alertext = flashcardList.elementAt(index).title;
+                        alertext2 = flashcardList.elementAt(index).content;
+                        break;
+                      case ListTileTitleAlignment.titleHeight:
+                        alertext = 'Edit';
+                        alertext2 = 'Inca nimic';
+                        break;
+                      case ListTileTitleAlignment.top:
+                        alertext = 'Delete';
+                        alertext2 = 'Are you sure you want to delete?';
+                        break;
+                      case ListTileTitleAlignment.center:
+                        //practice
+                        break;
+                      default:
+                        // Handle the case where value is null
+                        break;
+                    }
                     if (value != ListTileTitleAlignment.center &&
                         value != ListTileTitleAlignment.titleHeight) {
                       showDialog(
