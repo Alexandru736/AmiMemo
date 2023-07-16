@@ -1,32 +1,83 @@
-import 'package:flutter/material.dart';
-import 'package:untitled6/flipCard.dart';
-import 'package:untitled6/homepage.dart';
-
 import 'flashcard.dart';
+import 'package:flutter/material.dart';
+import 'homepage.dart';
+import 'practicePage.dart';
+import 'evaluatePage.dart';
 
-class PracticePage extends StatefulWidget {
-  final Flashcard flashcard;
+class PracticeWidget extends StatefulWidget {
+  final List<Flashcard> flashcardList;
+  final int flashcardIndex;
+  int correctAnswers = 0;
 
-  PracticePage({Key? key, required this.flashcard}) : super(key: key);
+  PracticeWidget({super.key, required this.flashcardIndex, required this.flashcardList, required this.correctAnswers});
+
 
   @override
-  _PracticePageState createState() => _PracticePageState();
+  State<PracticeWidget> createState() => _PracticeWidgetState();
 }
 
-class _PracticePageState extends State<PracticePage> {
+class _PracticeWidgetState extends State<PracticeWidget> {
   String selectedWord = '';
   List<String> options = [];
   String content = '';
-
+  late Flashcard flashcard;
+  late int flashcardIndex;
+  late List<Flashcard> flashcardList;
+  //int correctAnswers = 0;
 
   @override
   void initState() {
     super.initState();
-    options.add(widget.flashcard.correctWord);
-    options.add(widget.flashcard.wrongWord1);
-    options.add(widget.flashcard.wrongWord2);
+    flashcard = widget.flashcardList.elementAt(widget.flashcardIndex);
+    flashcardIndex = widget.flashcardIndex;
+    flashcardList = widget.flashcardList;
+    options.add(flashcard.correctWord);
+    options.add(flashcard.wrongWord1);
+    options.add(flashcard.wrongWord2);
     options.shuffle();
-    content = widget.flashcard.content.replaceAll(widget.flashcard.correctWord, '___');
+    content = flashcard.content.replaceAll(flashcard.correctWord, '___');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(height: 30),
+          Text(
+            content,
+            style: TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: selectedWord == '' ? () => wordReplace(options[0]) : null,
+                child:Text(options[0]),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: selectedWord == '' ? () => wordReplace(options[1]) : null,
+                child: Text(options[1]),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: selectedWord == '' ? () => wordReplace(options[2]) : null,
+                child: Text(options[2]),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () => checkAnswer(),
+            child: Text('Check Answer'),
+          ),
+        ],
+      ),
+    );
   }
 
   void wordReplace(String buttonText) {
@@ -41,10 +92,11 @@ class _PracticePageState extends State<PracticePage> {
       return;
     }
     String message;
-    if (selectedWord == widget.flashcard.correctWord) {
+    if (selectedWord == flashcard.correctWord) {
       message = 'Well done!';
+      widget.correctAnswers++;
     } else {
-      message = 'Wrong answer. The correct answer is: ${widget.flashcard.correctWord}.';
+      message = 'Wrong answer. The correct answer is: ${flashcard.correctWord}.';
     }
     showDialog(
       context: context,
@@ -58,12 +110,20 @@ class _PracticePageState extends State<PracticePage> {
                 Navigator.of(context).pop();
                 setState(() {
                   selectedWord = '';
-                  content = widget.flashcard.content.replaceFirst('___', '___');
+                  content = flashcard.content.replaceFirst('___', '___');
                   options.shuffle(); // shuffle options again
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(), // navigate back to StartPage
+                      builder: (context) {
+                        if(flashcardList.length == 1) {
+                          return StartPage();
+                        }
+                        if(flashcardIndex < flashcardList.length - 1) {
+                          return PracticePage(flashcardList: flashcardList, flashcardIndex: flashcardIndex + 1 , correctAnswers: widget.correctAnswers,);   //
+                        }
+                        return EvaluatePage(flashcardList: flashcardList, flashcardIndex: flashcardIndex , correctAnswers: widget.correctAnswers); //TODO evaluationPage
+                      }, // navigate back to StartPage
                     ),
                   );
                 });
@@ -75,74 +135,4 @@ class _PracticePageState extends State<PracticePage> {
       },
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Practice!'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 30),
-            Text(
-              content,
-              style: TextStyle(fontSize: 30, color: Colors.deepPurple),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: selectedWord == '' ? () => wordReplace(options[0]) : null,
-                  child:Text(options[0]),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: selectedWord == '' ? () => wordReplace(options[1]) : null,
-                  child: Text(options[1]),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: selectedWord == '' ? () => wordReplace(options[2]) : null,
-                  child: Text(options[2]),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () => checkAnswer(),
-              child: Text('Check Answer'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
-
-class NextWord extends StatelessWidget {
-  const NextWord({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Next Word'),
-      ),
-      body: Center(
-        child: Text(
-          'Let\'s move on to the next word.',
-          style: TextStyle(fontSize: 24),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
-
