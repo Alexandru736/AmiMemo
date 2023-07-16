@@ -117,7 +117,7 @@ class _PracticeWidgetState extends State<PracticeWidget> {
                     MaterialPageRoute(
                       builder: (context) {
                         if(flashcardList.length == 1) {
-                          return StartPage();
+                          return MyHomePage();
                         }
                         if(flashcardIndex < flashcardList.length - 1) {
                           return PracticePage(flashcardList: flashcardList, flashcardIndex: flashcardIndex + 1 , correctAnswers: widget.correctAnswers,);   //

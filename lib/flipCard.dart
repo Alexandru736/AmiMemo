@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled6/practice.dart';
 
 import 'flashcard.dart';
+import 'practicePage.dart';
 
 class FlipcardPage extends StatefulWidget {
   final Flashcard flashCard;
@@ -38,7 +39,9 @@ class _FlipcardPageState extends State<FlipcardPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => PracticePage(
-                              flashcard: widget.flashCard,
+                              flashcardList: [widget.flashCard],
+                              correctAnswers: 0,
+                              flashcardIndex: 0,
                             )),
                   );
                 },

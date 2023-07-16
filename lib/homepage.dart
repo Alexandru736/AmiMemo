@@ -4,6 +4,7 @@ import 'practice.dart';
 
 import 'create.dart';
 import 'edit.dart';
+import 'practicePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,20 +22,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: MyHomePage(
-        items: List<String>.generate(24, (i) => 'Item $i'),
-        title: 'MEMORIZE CATENA',
-      ),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  final List<String> items;
 
-  const MyHomePage({super.key, required this.title, required this.items});
+  const MyHomePage({super.key});
 
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -96,21 +92,26 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const PracticePage()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PracticePage(
+                  flashcardList: flashcardList,
+                  flashcardIndex: 0,
+                  correctAnswers: 0,
+                ),
+              ),
+            );
           },
           icon: const Icon(Icons.school_rounded),
           color: Colors.white,
         ),
         centerTitle: true,
         backgroundColor: Colors.green,
-        title: Text(widget.title, style: const TextStyle(color: Colors.white)),
+        title: Text('MEMORIZE CATENA', style: const TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-          itemCount: widget.items.length,
-          prototypeItem: ListTile(
-            title: Text(widget.items.first),
-          ),
+          itemCount: flashcardList.length,
           itemBuilder: (context, index) {
             return Container(
               decoration:
@@ -131,7 +132,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PracticePage()),
+                              builder: (context) => PracticePage(
+                                    flashcardList: [
+                                      flashcardList.elementAt(index)
+                                    ],
+                                    flashcardIndex: index,
+                                    correctAnswers: 0,
+                                  )),
                         );
                       }
                       if (value == ListTileTitleAlignment.titleHeight) {
@@ -174,9 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             actions: [
                               TextButton(
                                   onPressed: () {
-                                    setState(() {
-                                      widget.items.removeAt(index);
-                                    });
+                                    setState(() {});
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text('OK')),
