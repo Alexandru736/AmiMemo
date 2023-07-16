@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled6/flipCard.dart';
 import 'flashcard.dart';
 import 'practice.dart';
 
@@ -28,9 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   const MyHomePage({super.key});
-
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -108,7 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         centerTitle: true,
         backgroundColor: Colors.green,
-        title: Text('MEMORIZE CATENA', style: const TextStyle(color: Colors.white)),
+        title: Text('MEMORIZE CATENA',
+            style: const TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
           itemCount: flashcardList.length,
@@ -132,13 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PracticePage(
-                                    flashcardList: [
-                                      flashcardList.elementAt(index)
-                                    ],
-                                    flashcardIndex: index,
-                                    correctAnswers: 0,
-                                  )),
+                            builder: (context) => FlipcardPage(
+                              flashCard: flashcardList.elementAt(index),
+                            ),
+                          ),
                         );
                       }
                       if (value == ListTileTitleAlignment.titleHeight) {
